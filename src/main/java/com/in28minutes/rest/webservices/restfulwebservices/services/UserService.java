@@ -8,13 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.in28minutes.rest.webservices.restfulwebservices.domain.User;
 
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 @Component
-@Getter
-@Setter
 public class UserService {
 	
 	private static List<User> users = new ArrayList<>();
