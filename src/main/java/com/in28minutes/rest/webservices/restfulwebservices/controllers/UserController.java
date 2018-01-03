@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.in28minutes.rest.webservices.restfulwebservices.domain.User;
-import com.in28minutes.rest.webservices.restfulwebservices.services.UserService;
+import com.in28minutes.rest.webservices.restfulwebservices.facades.UsersFacade;
 
 @RestController
 public class UserController {
@@ -21,22 +21,23 @@ public class UserController {
 	private static final String USERS_END_POINT = "/users";
 	
 	 @Autowired
-	 UserService userService;
+	 UsersFacade usersFacade;
 	 
 	 @GetMapping(path = USERS_END_POINT)
 	 public List<User> retrieveAllUsers(){
-		 return userService.findAll();
+		 return usersFacade.findAll();
 	 }
 	 
 	 @GetMapping(path = USERS_END_POINT+"/{id}")
 	 public User retrieveUser(@PathVariable int id) {
-		 return userService.findOne(id);
+		 
+		 return usersFacade.findOne(id);
 	 }
 
 	 @PostMapping(path = USERS_END_POINT)
 	 public ResponseEntity<Object> createUser(@RequestBody User user) {
 		 
-		 User userCreated= userService.save( user);
+		 User userCreated= usersFacade.save( user);
 		 
 		 URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userCreated.getId()).toUri();
 		 
