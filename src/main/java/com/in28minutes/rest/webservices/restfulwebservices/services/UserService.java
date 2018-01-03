@@ -31,10 +31,16 @@ public class UserService {
 	
 	public User save (@NonNull User user) {
 		
-		User userStored = users.stream().filter(u -> u.getId() == user.getId()).findFirst().map(u -> User.builder().id(user.getId()).name(user.getName()).birthDate(user.getBirthDate()).build()).orElse(null);
-		
-		if(userStored == null) {
+		if(user.getId() == null) {
+			user.setId(users.size()+1);
 			users.add(user);
+		}else {
+			
+			User userStored = users.stream().filter(u -> u.getId() == user.getId()).findFirst().map(u -> User.builder().id(user.getId()).name(user.getName()).birthDate(user.getBirthDate()).build()).orElse(null);
+			
+			if(userStored == null) {
+				users.add(user);
+			}
 		}
 		
 		return user;	
