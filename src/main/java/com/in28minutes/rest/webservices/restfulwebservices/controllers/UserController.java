@@ -3,6 +3,8 @@ package com.in28minutes.rest.webservices.restfulwebservices.controllers;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,7 +38,7 @@ public class UserController {
 	}
 
 	@PostMapping(path = USERS_END_POINT)
-	public ResponseEntity<Object> createUser(@RequestBody User user) {
+	public ResponseEntity<Object> createUser(@Valid @RequestBody User user) {
 
 		User userCreated = usersFacade.save(user);
 
