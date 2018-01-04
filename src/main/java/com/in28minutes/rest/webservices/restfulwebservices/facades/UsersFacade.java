@@ -41,4 +41,10 @@ public class UsersFacade {
 		
 		return userFound;
 	}
+	
+	public void deleteById(int id) {
+		if(!userService.deleteById(id)) {
+			throw new UserNotFoundException("Id - "+id);
+		}
+	}
 }

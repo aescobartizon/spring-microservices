@@ -49,4 +49,8 @@ public class UserService {
 	public User findOne(int id){
 		return users.stream().filter(u -> u.getId() == id).findFirst().orElse(null);
 	}
+	
+	public boolean deleteById(int id){
+		return users.removeIf(u -> u.getId()==id);
+	}
 }
