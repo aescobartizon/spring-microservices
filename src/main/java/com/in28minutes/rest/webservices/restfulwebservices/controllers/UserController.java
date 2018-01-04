@@ -1,11 +1,17 @@
 package com.in28minutes.rest.webservices.restfulwebservices.controllers;
 
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +29,8 @@ public class UserController {
 	
 	private static final String USERS_END_POINT = "/users";
 	
+	private static final String USER_REL_USERS="all-users";
+	
 	 @Autowired
 	 UsersFacade usersFacade;
 	 
@@ -32,8 +40,16 @@ public class UserController {
 	 }
 	 
 	@GetMapping(path = USERS_END_POINT + "/{id}")
-	public User retrieveUser(@PathVariable int id) {
-		return usersFacade.findOne(id);
+	public Resource<User> retrieveUser(@PathVariable int id) {
+		User userFound =  usersFacade.findOne(id);
+		
+		Resource<User> resource = new Resource<>(userFound);
+		
+		ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+		
+		resource.add(linkTo.withRel(USER_REL_USERS));
+		
+		return resource;
 
 	}
 
