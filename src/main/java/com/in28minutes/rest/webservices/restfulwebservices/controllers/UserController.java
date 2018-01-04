@@ -28,20 +28,20 @@ public class UserController {
 		 return usersFacade.findAll();
 	 }
 	 
-	 @GetMapping(path = USERS_END_POINT+"/{id}")
-	 public User retrieveUser(@PathVariable int id) {
-		 
-		 return usersFacade.findOne(id);
-	 }
+	@GetMapping(path = USERS_END_POINT + "/{id}")
+	public User retrieveUser(@PathVariable int id) {
+		return usersFacade.findOne(id);
 
-	 @PostMapping(path = USERS_END_POINT)
-	 public ResponseEntity<Object> createUser(@RequestBody User user) {
-		 
-		 User userCreated= usersFacade.save( user);
-		 
-		 URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userCreated.getId()).toUri();
-		 
-		 return ResponseEntity.created(location).body(userCreated);
-		 
-	 }
+	}
+
+	@PostMapping(path = USERS_END_POINT)
+	public ResponseEntity<Object> createUser(@RequestBody User user) {
+
+		User userCreated = usersFacade.save(user);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(userCreated.getId()).toUri();
+
+		return ResponseEntity.created(location).body(userCreated);
+	}
 }
