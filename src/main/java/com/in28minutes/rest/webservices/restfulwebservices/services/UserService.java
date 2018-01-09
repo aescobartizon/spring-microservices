@@ -16,13 +16,8 @@ public class UserService {
 	private static List<User> users = new ArrayList<>();
 	
 	static {
-		users.add(User.builder().id(1).name("Adam").birthDate(new Date()).build());
-		users.add(User.builder().id(2).name("Eve").birthDate(new Date()).build());
-		users.add(User.builder().id(3).name("Jack").birthDate(new Date()).build());
-		users.add(User.builder().id(4).name("Antonio").birthDate(new Date()).build());
-		users.add(User.builder().id(5).name("Jorge").birthDate(new Date()).build());
-		users.add(User.builder().id(6).name("JA").birthDate(new Date()).build());
-		users.add(User.builder().id(7).name("Deg").birthDate(new Date()).build());
+		users.add(new User(1,"Adam",new Date()));
+		users.add(new User(2,"Eve",new Date()));
 	}
 
 	public List<User> findAll(){
@@ -36,7 +31,7 @@ public class UserService {
 			users.add(user);
 		}else {
 			
-			User userStored = users.stream().filter(u -> u.getId() == user.getId()).findFirst().map(u -> User.builder().id(user.getId()).name(user.getName()).birthDate(user.getBirthDate()).build()).orElse(null);
+			User userStored = users.stream().filter(u -> u.getId() == user.getId()).findFirst().map(u -> new User(user.getId(),user.getName(),user.getBirthDate())).orElse(null);
 			
 			if(userStored == null) {
 				users.add(user);

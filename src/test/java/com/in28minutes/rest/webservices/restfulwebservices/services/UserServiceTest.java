@@ -17,7 +17,7 @@ public class UserServiceTest {
 	
 	private UserService userService = new UserService();
 	
-	private static User userTest = User.builder().id(50).name("Test User").birthDate(new Date()).build();
+	private static User userTest = new User(50,"Test User",new Date());
 	
 	private static String updateName = "Update Name";
 	

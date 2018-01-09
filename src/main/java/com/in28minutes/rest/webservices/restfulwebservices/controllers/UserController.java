@@ -29,6 +29,8 @@ public class UserController {
 	
 	private static final String USERS_END_POINT = "/users";
 	
+	private static final String USERS_END_POINT_JPA = "/jpa/users";
+	
 	private static final String USER_REL_USERS="all-users";
 	
 	 @Autowired
@@ -67,5 +69,40 @@ public class UserController {
 	@DeleteMapping(path = USERS_END_POINT + "/{id}")
 	public void deleteUser(@PathVariable int id) {
 		usersFacade.deleteById(id);
+	}
+	
+	@GetMapping(path = USERS_END_POINT_JPA)
+	 public List<User> retrieveAllUsersJPA(){
+		 return usersFacade.jpaFindAll();
+	 }
+	 
+	@GetMapping(path = USERS_END_POINT_JPA + "/{id}")
+	public Resource<User> retrieveUserJPA(@PathVariable int id) {
+		User userFound =  usersFacade.jpaFindOne(id);
+		
+		Resource<User> resource = new Resource<>(userFound);
+		
+		ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+		
+		resource.add(linkTo.withRel(USER_REL_USERS));
+		
+		return resource;
+
+	}
+
+	@PostMapping(path = USERS_END_POINT_JPA)
+	public ResponseEntity<Object> createUserJPA(@Valid @RequestBody User user) {
+
+		User userCreated = usersFacade.jpaSave(user);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(userCreated.getId()).toUri();
+
+		return ResponseEntity.created(location).body(userCreated);
+	}
+	
+	@DeleteMapping(path = USERS_END_POINT_JPA + "/{id}")
+	public void deleteUserJPA(@PathVariable int id) {
+		usersFacade.jpaDeleteById(id);
 	}
 }
