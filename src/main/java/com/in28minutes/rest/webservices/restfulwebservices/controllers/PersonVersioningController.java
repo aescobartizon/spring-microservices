@@ -16,8 +16,6 @@ public class PersonVersioningController {
 	
 	private static final String PERSON_END_POINT_HEADER = "/person/header";
 	
-	private static final String HEADER_VERSION = "X-API-VERSION =";
-	
 	private static final String PERSON_END_POINT_PRODUCER = "/person/producer";
 
 	
@@ -33,8 +31,10 @@ public class PersonVersioningController {
 	
 	@GetMapping(value=PERSON_END_POINT_HEADER, headers = "X-API-VERSION=1")
 	public PersonV1 retrievePersonHeader1() {
+		
 		return PersonV1.builder().name("Antonio Escobar").build();
 	}
+	
 	
 	@GetMapping(value=PERSON_END_POINT_HEADER,headers = "X-API-VERSION=2")
 	public PersonV2 retrievePersonHeader2() {
