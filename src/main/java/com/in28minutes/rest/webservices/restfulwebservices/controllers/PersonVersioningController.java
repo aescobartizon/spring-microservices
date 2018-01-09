@@ -16,6 +16,8 @@ public class PersonVersioningController {
 	
 	private static final String PERSON_END_POINT_HEADER = "/person/header";
 	
+	private static final String HEADER_VERSION = "X-API-VERSION =";
+	
 	private static final String PERSON_END_POINT_PRODUCER = "/person/producer";
 
 	
