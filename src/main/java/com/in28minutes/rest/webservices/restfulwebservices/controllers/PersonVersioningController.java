@@ -14,6 +14,13 @@ public class PersonVersioningController {
 	
 	private static final String PERSON_END_POINT_V2 = "v2/person";
 	
+	private static final String PERSON_END_POINT_HEADER = "/person/header";
+	
+	private static final String HEADER_VERSION = "X-API-VERSION =";
+	
+	private static final String PERSON_END_POINT_PRODUCER = "/person/producer";
+
+	
 	@GetMapping(path=PERSON_END_POINT_V1)
 	public PersonV1 retrievePersonV1() {
 		return PersonV1.builder().name("Antonio Escobar").build();
@@ -21,6 +28,26 @@ public class PersonVersioningController {
 	
 	@GetMapping(path=PERSON_END_POINT_V2)
 	public PersonV2 retrievePersonV2() {
+		return PersonV2.builder().name(Name.builder().firstName("Antonio").lastName("Escobar").build()).build();
+	}
+	
+	@GetMapping(value=PERSON_END_POINT_HEADER, headers = "X-API-VERSION=1")
+	public PersonV1 retrievePersonHeader1() {
+		return PersonV1.builder().name("Antonio Escobar").build();
+	}
+	
+	@GetMapping(value=PERSON_END_POINT_HEADER,headers = "X-API-VERSION=2")
+	public PersonV2 retrievePersonHeader2() {
+		return PersonV2.builder().name(Name.builder().firstName("Antonio").lastName("Escobar").build()).build();
+	}
+	
+	@GetMapping(value=PERSON_END_POINT_PRODUCER, produces="application/vnd.company.app-v1+json")
+	public PersonV1 retrieveProducerV1() {
+		return PersonV1.builder().name("Antonio Escobar").build();
+	}
+	
+	@GetMapping(value=PERSON_END_POINT_PRODUCER,produces="application/vnd.company.app-v2+json")
+	public PersonV2 retrieveProducerV2() {
 		return PersonV2.builder().name(Name.builder().firstName("Antonio").lastName("Escobar").build()).build();
 	}
 }
